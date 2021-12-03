@@ -16,7 +16,7 @@ public class UsuarioDAOimpl extends ConexionDB implements UsuarioDAO{
     public void insert(Usuario usuario) throws Exception {
         try{
             this.conectar();
-            String sql = "INSERT INTO usuarios (ap_paterno, ap_materno, nombres, ci, ru, celular, correo, direccion, f_nac, n_titulo_bachiller, foto, nick, password, estado, nivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO usuarios (ap_paterno, ap_materno, nombres, ci, ru, celular, correo, direccion, f_nac, n_titulo_bachiller, foto, nick, password, estado, nivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SHA1(?), ?, ?)";
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, usuario.getAp_paterno());
             ps.setString(2, usuario.getAp_materno());
@@ -46,7 +46,7 @@ public class UsuarioDAOimpl extends ConexionDB implements UsuarioDAO{
     public void update(Usuario usuario) throws Exception {
         try{
             this.conectar();
-            String sql = "UPDATE usuarios SET ap_paterno=?, ap_materno=?, nombres=?, ci=?, ru=?, celular=?, correo=?, direccion=?, f_nac=?, n_titulo_bachiller=?, foto=?, nick=?, password=?, estado=?, nivel=? WHERE id_usuario = ?";
+            String sql = "UPDATE usuarios SET ap_paterno=?, ap_materno=?, nombres=?, ci=?, ru=?, celular=?, correo=?, direccion=?, f_nac=?, n_titulo_bachiller=?, foto=?, nick=?, password=SHA1(?), estado=?, nivel=? WHERE id_usuario = ?";
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, usuario.getAp_paterno());
             ps.setString(2, usuario.getAp_materno());

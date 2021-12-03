@@ -16,7 +16,9 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0">Lista de Matriculas</p>
+                        <c:if test="${administrador.nivel == 1}">
                         <a href="MatriculaController?action=add" class="float-right btn btn-primary btn-rounded btn-fw" role="button">Nueva Matricula</a>
+                        </c:if>
                         <div class="table-responsive">
                             <table class="table table-striped table-borderless">
                                 <thead>
@@ -37,12 +39,14 @@
                                             <td>${item.categoria}</td> 
                                             <td>${item.carrera}</td> 
                                             <td>${item.sede}</td> 
-                                            <td>${item.gestion}</td> 
+                                            <td>${item.gestion}</td>
+                                            <c:if test="${administrador.nivel == 1}">
                                             <td class="float-right">                                                
                                                 <a href="MatriculaController?action=edit&id_matricula=${item.id_matricula}" class="btn btn-warning btn-sm" role="button">Editar</a>
                                                 <a href="MatriculaController?action=delete&id_matricula=${item.id_matricula}" class="btn btn-danger btn-sm" role="button"
                                                    onclick="return(confirm('Esta seguro ???'))">Eliminar</a>
-                                            </td>                                            
+                                            </td>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

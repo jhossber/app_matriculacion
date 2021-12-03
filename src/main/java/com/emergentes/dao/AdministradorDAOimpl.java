@@ -17,7 +17,7 @@ public class AdministradorDAOimpl extends ConexionDB implements AdministradorDAO
     public void insert(Administrador administrador) throws Exception {
         try{
             this.conectar();
-            String sql = "INSERT INTO usuarios (ap_paterno, ap_materno, nombres, ci, celular, correo, foto, password, estado, nivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO usuarios (ap_paterno, ap_materno, nombres, ci, celular, correo, foto, password, estado, nivel) VALUES (?, ?, ?, ?, ?, ?, ?, SHA1(?), ?, ?)";
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, administrador.getAp_paterno());
             ps.setString(2, administrador.getAp_materno());
@@ -42,7 +42,7 @@ public class AdministradorDAOimpl extends ConexionDB implements AdministradorDAO
     public void update(Administrador administrador) throws Exception {
         try{
             this.conectar();
-            String sql = "UPDATE usuarios SET ap_paterno=?, ap_materno=?, nombres=?, ci=?, celular=?, correo=?, foto=?, password=?, estado=?, nivel=? WHERE id_usuario = ?";
+            String sql = "UPDATE usuarios SET ap_paterno=?, ap_materno=?, nombres=?, ci=?, celular=?, correo=?, foto=?, password=SHA1(?), estado=?, nivel=? WHERE id_usuario = ?";
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ps.setString(1, administrador.getAp_paterno());
             ps.setString(2, administrador.getAp_materno());
@@ -146,6 +146,40 @@ public class AdministradorDAOimpl extends ConexionDB implements AdministradorDAO
             this.desconectar();
         }
         return lista;
+    }
+
+    @Override
+    public Administrador getByCorreo(String correo) throws Exception {
+        Administrador adm = new Administrador();
+        try{
+            this.conectar();
+            
+            String sql = "SELECT * FROM usuarios WHERE correo = ?";
+            PreparedStatement ps = this.conn.prepareStatement(sql);
+            ps.setString(1, correo);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                adm.setId_usuario(rs.getInt("id_usuario"));
+                adm.setAp_paterno(rs.getString("ap_paterno")); 
+                adm.setAp_materno(rs.getString("ap_materno")); 
+                adm.setNombres(rs.getString("nombres")); 
+                adm.setCi(rs.getInt("ci")); 
+                adm.setCelular(rs.getInt("celular")); 
+                adm.setCorreo(rs.getString("correo")); 
+                
+                adm.setFoto(rs.getString("foto")); 
+
+                adm.setPassword(rs.getString("password")); 
+                adm.setEstado(rs.getInt("estado")); 
+                adm.setNivel(rs.getInt("nivel")); 
+            }
+        }catch(Exception e){
+            throw e;
+        } finally{
+            this.desconectar();
+        }
+        return adm;
     }
     
 }

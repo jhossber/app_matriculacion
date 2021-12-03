@@ -1,5 +1,8 @@
 package com.emergentes.controlador;
 
+import com.emergentes.dao.AdministradorDAO;
+import com.emergentes.dao.AdministradorDAOimpl;
+import com.emergentes.modelo.Administrador;
 import com.emergentes.utiles.Validate;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,15 +28,27 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        
+                
         System.out.println("Datos.."+ email +" "+ password);
         
         Validate v = new Validate();
         
         if (v.checkUser(email, password)) {
-            HttpSession ses  = request.getSession();
-            ses.setAttribute("login", "OK");
-            response.sendRedirect("UsuarioController");
+            try{                
+                AdministradorDAO dao = new AdministradorDAOimpl();
+                // Gestionar Registros
+                Administrador adm = new Administrador();
+                adm = dao.getByCorreo(email);
+                
+                HttpSession ses  = request.getSession();
+                ses.setAttribute("administrador", adm);
+                ses.setAttribute("login", "OK");
+                response.sendRedirect("Dashboard");
+                
+            } catch (Exception e){
+                System.out.println("Error" + e.getMessage());
+            }
+            
         }else{
             response.sendRedirect("login.jsp");
         }

@@ -119,7 +119,7 @@ public class MatriculaDAOimpl extends ConexionDB implements MatriculaDAO {
 //            sql += "LEFT JOIN sedes s ON m.id_sede = s.id_sede";
 //            sql += "LEFT JOIN gestiones g ON m.id_gestion = g.id_gestion";
             
-            String sql = "SELECT m.*, u.ci as usuario, cat.nombre as categoria, car.nombre as carrera, s.nombre as sede, g.nombre as gestion FROM matriculas m LEFT JOIN usuarios u ON m.id_usuario = u.id_usuario LEFT JOIN categorias cat ON m.id_categoria = cat.id_categoria LEFT JOIN carreras car ON m.id_carrera = car.id_carrera LEFT JOIN sedes s ON m.id_sede = s.id_sede LEFT JOIN gestiones g ON m.id_gestion = g.id_gestion ";
+            String sql = "SELECT m.*, u.ci as usuario, cat.nombre as categoria, car.nombre as carrera, s.nombre as sede, g.nombre as gestion FROM matriculas m LEFT JOIN usuarios u ON m.id_usuario = u.id_usuario LEFT JOIN categorias cat ON m.id_categoria = cat.id_categoria LEFT JOIN carreras car ON m.id_carrera = car.id_carrera LEFT JOIN sedes s ON m.id_sede = s.id_sede LEFT JOIN gestiones g ON m.id_gestion = g.id_gestion  ";
             PreparedStatement ps = this.conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             

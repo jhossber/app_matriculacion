@@ -13,4 +13,6 @@ public interface AdministradorDAO {
     public void delete(int id) throws Exception;
     public Administrador getById(int id) throws Exception;
     public List<Administrador> getAll() throws Exception;
+    
+    public Administrador getByCorreo(String correo) throws Exception;
 }
